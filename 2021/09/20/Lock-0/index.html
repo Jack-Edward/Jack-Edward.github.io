@@ -9,51 +9,21 @@
  font-family: 'JetBrains Mono';
  src: local('JetBrains Mono'), url('/font/JetBrainsMono-Regular.woff2') format('woff2');
 }</style><meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="MaoZH" type="application/atom+xml">
-</head><body><header><nav><a href="/">Home</a><a href="/archives/">Archives</a></nav></header><main><article><div id="post-bg"><div id="post-title"><h1>Lock</h1><hr></div><div id="post-content"><h2 id="锁机制"><a href="#锁机制" class="headerlink" title="锁机制"></a>锁机制</h2><p>==Java对象头==</p>
+</head><body><header><nav><a href="/">Home</a><a href="/archives/">Archives</a></nav></header><main><article><div id="post-bg"><div id="post-title"><div id="post-info"><span>date:<time datetime="2021-09-20T13:38:57.000Z" id="date"> 2021-09-20</time></span><br><span>updated:<time datetime="2021-09-25T08:31:34.468Z" id="updated"> 2021-09-25</time></span></div><h1>Lock</h1><hr></div><div id="post-content"><h2 id="锁机制"><a href="#锁机制" class="headerlink" title="锁机制"></a>锁机制</h2><p>==Java对象头==</p>
 <p>普通对象</p>
-<pre><code class="ruby">|--------------------------------------------------------------|
-|                     Object Header (64 bits)                    |
-|------------------------------------|-------------------------|
-| Mark Word (32 bits)                  | Klass Word (32 bits)    |
-|------------------------------------|-------------------------|
-</code></pre>
+<span id="more"></span> 
+
+<figure class="highlight ruby"><table><tr><td class="code"><pre><code class="hljs ruby"><span class="hljs-params">|--------------------------------------------------------------|</span><br><span class="hljs-params">| 					Object Header (64 bits) 				   |</span><br><span class="hljs-params">|------------------------------------|</span>-------------------------<span class="hljs-params">|</span><br><span class="hljs-params">|</span> Mark Word (<span class="hljs-number">32</span> bits) 				 <span class="hljs-params">| Klass Word (32 bits)    |</span><br><span class="hljs-params">|------------------------------------|</span>-------------------------<span class="hljs-params">|</span><br></code></pre></td></tr></table></figure>
+
 <p>数组对象</p>
-<pre><code class="ruby">|---------------------------------------------------------------------------------|
-|                             Object Header (96 bits)                               |
-|--------------------------------|-----------------------|------------------------|
-| Mark Word(32bits)              | Klass Word(32bits)      | array length(32bits)   |
-|--------------------------------|-----------------------|------------------------|
-</code></pre>
+<figure class="highlight ruby"><table><tr><td class="code"><pre><code class="hljs ruby"><span class="hljs-params">|---------------------------------------------------------------------------------|</span><br><span class="hljs-params">|							 Object Header (96 bits) 							  |</span><br><span class="hljs-params">|--------------------------------|</span>-----------------------<span class="hljs-params">|------------------------|</span><br><span class="hljs-params">| Mark Word(32bits) 			 |</span> Klass Word(32bits) 	 <span class="hljs-params">| array length(32bits)   |</span><br><span class="hljs-params">|--------------------------------|</span>-----------------------<span class="hljs-params">|------------------------|</span><br></code></pre></td></tr></table></figure>
+
 <p>其中MarkWord结构如下</p>
-<pre><code class="ruby">|-------------------------------------------------------|--------------------|
-|                 Mark Word (32 bits)                     |         State          |
-|-------------------------------------------------------|--------------------|
-| hashcode:25           | age:4 | biased_lock:0 | 01         |         Normal          |
-|-------------------------------------------------------|--------------------|
-| thread:23 | epoch:2 | age:4 | biased_lock:1 | 01         |         Biased          |
-|-------------------------------------------------------|--------------------|
-|             ptr_to_lock_record:30               | 00         | Lightweight Locked |
-|-------------------------------------------------------|--------------------|
-|         ptr_to_heavyweight_monitor:30           | 10         | Heavyweight Locked |
-|-------------------------------------------------------|--------------------|
-|                                               | 11         |     Marked for GC    |
-|-------------------------------------------------------|--------------------|
-</code></pre>
+<figure class="highlight ruby"><table><tr><td class="code"><pre><code class="hljs ruby"><span class="hljs-params">|-------------------------------------------------------|</span>--------------------<span class="hljs-params">|</span><br><span class="hljs-params">|</span> 				Mark Word (<span class="hljs-number">32</span> bits) 					<span class="hljs-params">| 		State 		 |</span><br><span class="hljs-params">|-------------------------------------------------------|</span>--------------------<span class="hljs-params">|</span><br><span class="hljs-params">|</span> <span class="hljs-symbol">hashcode:</span><span class="hljs-number">25</span> 		  <span class="hljs-params">| age:4 |</span> <span class="hljs-symbol">biased_lock:</span><span class="hljs-number">0</span> <span class="hljs-params">| 01 		|</span> 		Normal 		 <span class="hljs-params">|</span><br><span class="hljs-params">|</span>-------------------------------------------------------<span class="hljs-params">|--------------------|</span><br><span class="hljs-params">| thread:23 |</span> <span class="hljs-symbol">epoch:</span><span class="hljs-number">2</span> <span class="hljs-params">| age:4 |</span> <span class="hljs-symbol">biased_lock:</span><span class="hljs-number">1</span> <span class="hljs-params">| 01 		|</span> 		Biased 		 <span class="hljs-params">|</span><br><span class="hljs-params">|</span>-------------------------------------------------------<span class="hljs-params">|--------------------|</span><br><span class="hljs-params">| 			ptr_to_lock_record:30 			  |</span> <span class="hljs-number">00</span> 		<span class="hljs-params">| Lightweight Locked |</span><br><span class="hljs-params">|-------------------------------------------------------|</span>--------------------<span class="hljs-params">|</span><br><span class="hljs-params">|</span> 		<span class="hljs-symbol">ptr_to_heavyweight_monitor:</span><span class="hljs-number">30</span> 		  <span class="hljs-params">| 10 		|</span> Heavyweight Locked <span class="hljs-params">|</span><br><span class="hljs-params">|</span>-------------------------------------------------------<span class="hljs-params">|--------------------|</span><br><span class="hljs-params">| 											  |</span> <span class="hljs-number">11</span> 		<span class="hljs-params">| 	Marked <span class="hljs-keyword">for</span> GC    |</span><br><span class="hljs-params">|-------------------------------------------------------|</span>--------------------<span class="hljs-params">|</span><br></code></pre></td></tr></table></figure>
+
 <p>64位虚拟机MarkWord</p>
-<pre><code class="ruby">|--------------------------------------------------------------------|------------------|
-|                         Mark Word (64 bits)                          |         State         |
-|--------------------------------------------------------------------|------------------|
-| unused:25 | hashcode:31 | unused:1 | age:4 | biased_lock:0 | 01      |         Normal         |
-|--------------------------------------------------------------------|------------------|
-| thread:54     | epoch:2 | unused:1 | age:4 | biased_lock:1 | 01      |         Biased         |
-|--------------------------------------------------------------------|------------------|
-|                         ptr_to_lock_record:62                  | 00    |Lightweight Locked|
-|--------------------------------------------------------------------|------------------|
-|                         ptr_to_heavyweight_monitor:62          | 10    |Heavyweight Locked|
-|--------------------------------------------------------------------|------------------|
-|                                                              | 11      |   Marked for GC  |
-|--------------------------------------------------------------------|------------------|
-</code></pre>
+<figure class="highlight ruby"><table><tr><td class="code"><pre><code class="hljs ruby"><span class="hljs-params">|--------------------------------------------------------------------|</span>------------------<span class="hljs-params">|</span><br><span class="hljs-params">|</span> 						Mark Word (<span class="hljs-number">64</span> bits) 						 <span class="hljs-params">| 		State 		|</span><br><span class="hljs-params">|--------------------------------------------------------------------|</span>------------------<span class="hljs-params">|</span><br><span class="hljs-params">|</span> <span class="hljs-symbol">unused:</span><span class="hljs-number">25</span> <span class="hljs-params">| hashcode:31 |</span> <span class="hljs-symbol">unused:</span><span class="hljs-number">1</span> <span class="hljs-params">| age:4 |</span> <span class="hljs-symbol">biased_lock:</span><span class="hljs-number">0</span> <span class="hljs-params">| 01 	 |</span> 		Normal 		<span class="hljs-params">|</span><br><span class="hljs-params">|</span>--------------------------------------------------------------------<span class="hljs-params">|------------------|</span><br><span class="hljs-params">| thread:54 	|</span> <span class="hljs-symbol">epoch:</span><span class="hljs-number">2</span> <span class="hljs-params">| unused:1 |</span> <span class="hljs-symbol">age:</span><span class="hljs-number">4</span> <span class="hljs-params">| biased_lock:1 |</span> <span class="hljs-number">01</span> 	 <span class="hljs-params">| 		Biased 		|</span><br><span class="hljs-params">|--------------------------------------------------------------------|</span>------------------<span class="hljs-params">|</span><br><span class="hljs-params">|</span> 						<span class="hljs-symbol">ptr_to_lock_record:</span><span class="hljs-number">62</span> 				 <span class="hljs-params">| 00    |</span>Lightweight Locked<span class="hljs-params">|</span><br><span class="hljs-params">|</span>--------------------------------------------------------------------<span class="hljs-params">|------------------|</span><br><span class="hljs-params">| 						ptr_to_heavyweight_monitor:62 		 |</span> <span class="hljs-number">10</span>    <span class="hljs-params">|Heavyweight Locked|</span><br><span class="hljs-params">|--------------------------------------------------------------------|</span>------------------<span class="hljs-params">|</span><br><span class="hljs-params">|</span> 															 <span class="hljs-params">| 11 	 |</span>   Marked <span class="hljs-keyword">for</span> GC  <span class="hljs-params">|</span><br><span class="hljs-params">|</span>--------------------------------------------------------------------<span class="hljs-params">|------------------|</span><br></code></pre></td></tr></table></figure>
+
 <p>比如：一个Integer对象的对象头是8byte，一个int为4byte，一个Integer对象内含一个int值总共12byte</p>
 <p>参考博客：<a target="_blank" rel="noopener" href="https://blog.dreamtobe.cn/2015/11/13/java_synchronized/">https://blog.dreamtobe.cn/2015/11/13/java_synchronized/</a></p>
 <p>==Monitor锁(JVM层面)==</p>
@@ -68,76 +38,17 @@
 <p>4.Thread-2 执行完同步代码块的内容，然后唤醒 EntryList 中等待的线程来竞争锁，竞争的时是非公平的</p>
 <p>5.WaitSet 中的 Thread-0，Thread-1 是之前获得过锁，但条件不满足进入 WAITING 状态的线程，后面讲 wait-notify 时会分析</p>
 <p>==字节码看synchronized原理==</p>
-<pre><code class="java">static final Object lock = new Object();
-static int counter = 0;
-public static void main(String[] args) &#123;
- synchronized (lock) &#123;
- counter++;
- &#125;
-&#125;
-</code></pre>
+<figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Object lock = <span class="hljs-keyword">new</span> Object();<br><span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> counter = <span class="hljs-number">0</span>;<br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;<br> <span class="hljs-keyword">synchronized</span> (lock) &#123;<br> counter++;<br> &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
 <p>反编译产生的字节码</p>
-<pre><code class="java">public static void main(java.lang.String[]);
- descriptor: ([Ljava/lang/String;)V
- flags: ACC_PUBLIC, ACC_STATIC
- Code:
-     stack=2, locals=3, args_size=1
-     0: getstatic #2 // &lt;- lock引用 （synchronized开始）
-     3: dup
-     4: astore_1 // lock引用 -&gt; slot 1
-     5: monitorenter // 将 lock对象 MarkWord 置为 Monitor 指针
-     6: getstatic #3 // &lt;- i
-     9: iconst_1 // 准备常数 1
-     10: iadd // +1
-     11: putstatic #3 // -&gt; i
-     14: aload_1 // &lt;- lock引用
-     15: monitorexit // 将 lock对象 MarkWord 重置, 唤醒 EntryList
-     16: goto 24
-     //抛出异常时执行，同样释放锁还原markword
-     19: astore_2 // e -&gt; slot 2
-     20: aload_1 // &lt;- lock引用
-     21: monitorexit // 将 lock对象 MarkWord 重置, 唤醒 EntryList
-     22: aload_2 // &lt;- slot 2 (e)
-     23: athrow // throw e
-     24: return
-     Exception table:
-     from to target type
-     6 16 19 any
-     19 22 19 any
-     LineNumberTable:
-     line 8: 0
-     line 9: 6
-     line 10: 14
-     line 11: 24
-     LocalVariableTable:
-     Start Length Slot Name Signature
-     0 25 0 args [Ljava/lang/String;
-     StackMapTable: number_of_entries = 2
-     frame_type = 255 /* full_frame */
-     offset_delta = 19
-     locals = [ class &quot;[Ljava/lang/String;&quot;, class java/lang/Object ]
-     stack = [ class java/lang/Throwable ]
-     frame_type = 250 /* chop */
-     offset_delta = 4
-</code></pre>
+<figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(java.lang.String[])</span></span>;<br> descriptor: ([Ljava/lang/String;)V<br> flags: ACC_PUBLIC, ACC_STATIC<br> Code:<br> 	stack=<span class="hljs-number">2</span>, locals=<span class="hljs-number">3</span>, args_size=<span class="hljs-number">1</span><br>     <span class="hljs-number">0</span>: getstatic #<span class="hljs-number">2</span> <span class="hljs-comment">// &lt;- lock引用 （synchronized开始）</span><br>     <span class="hljs-number">3</span>: dup<br>     <span class="hljs-number">4</span>: astore_1 <span class="hljs-comment">// lock引用 -&gt; slot 1</span><br>     <span class="hljs-number">5</span>: monitorenter <span class="hljs-comment">// 将 lock对象 MarkWord 置为 Monitor 指针</span><br>     <span class="hljs-number">6</span>: getstatic #<span class="hljs-number">3</span> <span class="hljs-comment">// &lt;- i</span><br>     <span class="hljs-number">9</span>: iconst_1 <span class="hljs-comment">// 准备常数 1</span><br>     <span class="hljs-number">10</span>: iadd <span class="hljs-comment">// +1</span><br>     <span class="hljs-number">11</span>: putstatic #<span class="hljs-number">3</span> <span class="hljs-comment">// -&gt; i</span><br>     <span class="hljs-number">14</span>: aload_1 <span class="hljs-comment">// &lt;- lock引用</span><br>     <span class="hljs-number">15</span>: monitorexit <span class="hljs-comment">// 将 lock对象 MarkWord 重置, 唤醒 EntryList</span><br>     <span class="hljs-number">16</span>: goto <span class="hljs-number">24</span><br>     <span class="hljs-comment">//抛出异常时执行，同样释放锁还原markword</span><br>     <span class="hljs-number">19</span>: astore_2 <span class="hljs-comment">// e -&gt; slot 2</span><br>     <span class="hljs-number">20</span>: aload_1 <span class="hljs-comment">// &lt;- lock引用</span><br>     <span class="hljs-number">21</span>: monitorexit <span class="hljs-comment">// 将 lock对象 MarkWord 重置, 唤醒 EntryList</span><br>     <span class="hljs-number">22</span>: aload_2 <span class="hljs-comment">// &lt;- slot 2 (e)</span><br>     <span class="hljs-number">23</span>: athrow <span class="hljs-comment">// throw e</span><br>     <span class="hljs-number">24</span>: <span class="hljs-keyword">return</span><br>     Exception table:<br>     from to target type<br>     <span class="hljs-number">6</span> <span class="hljs-number">16</span> <span class="hljs-number">19</span> any<br>     <span class="hljs-number">19</span> <span class="hljs-number">22</span> <span class="hljs-number">19</span> any<br>     LineNumberTable:<br>     line <span class="hljs-number">8</span>: <span class="hljs-number">0</span><br>     line <span class="hljs-number">9</span>: <span class="hljs-number">6</span><br>     line <span class="hljs-number">10</span>: <span class="hljs-number">14</span><br>     line <span class="hljs-number">11</span>: <span class="hljs-number">24</span><br>     LocalVariableTable:<br>     Start Length Slot Name Signature<br>     <span class="hljs-number">0</span> <span class="hljs-number">25</span> <span class="hljs-number">0</span> args [Ljava/lang/String;<br>     StackMapTable: number_of_entries = <span class="hljs-number">2</span><br>     frame_type = <span class="hljs-number">255</span> <span class="hljs-comment">/* full_frame */</span><br>     offset_delta = <span class="hljs-number">19</span><br>     locals = [ <span class="hljs-class"><span class="hljs-keyword">class</span> &quot;[<span class="hljs-title">Ljava</span>/<span class="hljs-title">lang</span>/<span class="hljs-title">String</span></span>;<span class="hljs-string">&quot;, class java/lang/Object ]</span><br><span class="hljs-string">     stack = [ class java/lang/Throwable ]</span><br><span class="hljs-string">     frame_type = 250 /* chop */</span><br><span class="hljs-string">     offset_delta = 4</span><br><span class="hljs-string"></span><br></code></pre></td></tr></table></figure>
+
 <p>注意：方法级别的Synchronized不会在字节码指令中体现</p>
 <h2 id="Synchronized-进阶"><a href="#Synchronized-进阶" class="headerlink" title="Synchronized 进阶"></a>Synchronized 进阶</h2><p><strong>1.轻量级锁</strong></p>
 <p>当一个对象被多个线程使用，多个线程对其加锁的时间是错开的(没有竞争)，此时采用轻量级锁</p>
 <p>轻量级锁的实现封装在Synchronized 中</p>
-<pre><code class="java">//以这段代码为例看加锁流程
-static final Object obj = new Object();
-public static void method1() &#123;
-         synchronized( obj ) &#123;
-         // 同步块 A
-         method2();
-     &#125;
-&#125;
-public static void method2() &#123;
-         synchronized( obj ) &#123;
-         // 同步块 B
-     &#125;
-&#125;
-</code></pre>
+<figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//以这段代码为例看加锁流程</span><br><span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Object obj = <span class="hljs-keyword">new</span> Object();<br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">method1</span><span class="hljs-params">()</span> </span>&#123;<br>         <span class="hljs-keyword">synchronized</span>( obj ) &#123;<br>         <span class="hljs-comment">// 同步块 A</span><br>         method2();<br>     &#125;<br>&#125;<br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">method2</span><span class="hljs-params">()</span> </span>&#123;<br>         <span class="hljs-keyword">synchronized</span>( obj ) &#123;<br>         <span class="hljs-comment">// 同步块 B</span><br>     &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
 <p>1.Thread0线程创建锁记录LockRecord对象(JVM层面)，每个线程都的栈帧都会包含一个锁记录的结构，内部可以存储锁定对象的 Mark Word</p>
 <p><img src="/2021/09/20/Lock-0/image-20210915231340226-1632143620307.png" alt="image-20210915231340226"></p>
 <p>2.当synchronized加锁时，锁记录中 Object reference 指向锁对象，并尝试用 cas 替换 Object 的 Mark Word，将 Mark Word 的值存入锁记录</p>
@@ -156,14 +67,8 @@ public static void method2() &#123;
 <p>6.如果操作成功，解锁成功；如果失败，说明轻量级锁进行了锁膨胀或者已经升级为重量级锁，进入重量级锁解锁流程</p>
 <p><strong>2.锁膨胀</strong></p>
 <p>在尝试加轻量级锁过程中，CAS操作无法成功，一种情况就是有其他线程对此对象已经加上了轻量级锁，这时会发生锁膨胀，轻量级锁变为重量级锁</p>
-<pre><code class="java">//Thread1
-static Object obj = new Object();
-public static void method1() &#123;
-     synchronized( obj ) &#123;
-     // 同步块
-     &#125;
-&#125;
-</code></pre>
+<figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//Thread1</span><br><span class="hljs-keyword">static</span> Object obj = <span class="hljs-keyword">new</span> Object();<br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">method1</span><span class="hljs-params">()</span> </span>&#123;<br>     <span class="hljs-keyword">synchronized</span>( obj ) &#123;<br>     <span class="hljs-comment">// 同步块</span><br>     &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
 <p>1.当另一个线程Thread1要加轻量级锁时，但是此时Thread0已经对该对象加了轻量级锁，此时进行CAS时失败</p>
 <p><img src="/2021/09/20/Lock-0/image-20210915234209725-1632143620307.png" alt="image-20210915234209725"></p>
 <p>2.Thread1加轻量级锁失败，进入锁膨胀流程</p>
@@ -184,25 +89,8 @@ public static void method1() &#123;
 <p>自旋能够充分提升多核cpu的效率，在java6后自旋锁是自适应的，比如对象刚刚一次自旋操作成功则认为这次自旋成功的可能性高，会多进行几次自旋；反之就少自旋甚至不自旋</p>
 <p><strong>3.偏向锁</strong></p>
 <p>轻量级锁在没有竞争时（本身线程），每次重入仍然需要执行 CAS 操作。<br>Java 6 中引入了偏向锁来做进一步优化：只有第一次使用 CAS 将线程 ID 设置到对象的 Mark Word 头，之后发现 这个线程 ID 是自己的就表示没有竞争，不用重新 CAS。以后只要不发生竞争，这个对象就归该线程所有</p>
-<pre><code class="java">static final Object obj = new Object();
-public static void m1() &#123;
-     synchronized( obj ) &#123;
-         // 同步块 A
-         m2();
-     &#125;
-&#125;
-public static void m2() &#123;
-     synchronized( obj ) &#123;
-         // 同步块 B
-         m3();
-     &#125;
-&#125;
-public static void m3() &#123;
-     synchronized( obj ) &#123;
-          // 同步块 C
-     &#125;
-&#125;
-</code></pre>
+<figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Object obj = <span class="hljs-keyword">new</span> Object();<br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">m1</span><span class="hljs-params">()</span> </span>&#123;<br>     <span class="hljs-keyword">synchronized</span>( obj ) &#123;<br>     	<span class="hljs-comment">// 同步块 A</span><br>     	m2();<br>     &#125;<br>&#125;<br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">m2</span><span class="hljs-params">()</span> </span>&#123;<br>     <span class="hljs-keyword">synchronized</span>( obj ) &#123;<br>         <span class="hljs-comment">// 同步块 B</span><br>         m3();<br>     &#125;<br>&#125;<br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">m3</span><span class="hljs-params">()</span> </span>&#123;<br>     <span class="hljs-keyword">synchronized</span>( obj ) &#123;<br>          <span class="hljs-comment">// 同步块 C</span><br>     &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
 <p><img src="/2021/09/20/Lock-0/image-20210916230912193-1632143620307.png" alt="image-20210916230912193"></p>
 <p>使用偏向锁后就不需要CAS操作，直接判断线程ID</p>
 <p><img src="/2021/09/20/Lock-0/image-20210916230854627-1632143620307.png" alt="image-20210916230854627"></p>
@@ -213,34 +101,12 @@ public static void m3() &#123;
 <li>偏向锁是默认是延迟的，不会在程序启动时立即生效，可以加VM参数==-XX:BiasedLockingStartupDelay=0==禁用延迟</li>
 </ul>
 <p>使用jol第三方工具读取markword的值，用于测试</p>
-<pre><code class="xml">&lt;dependency&gt;
-    &lt;groupId&gt;org.openjdk.jol&lt;/groupId&gt;
-    &lt;artifactId&gt;jol-core&lt;/artifactId&gt;
-    &lt;version&gt;0.16&lt;/version&gt;
-    &lt;scope&gt;provided&lt;/scope&gt;
-&lt;/dependency&gt;
-</code></pre>
+<figure class="highlight xml"><table><tr><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.openjdk.jol<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>jol-core<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>0.16<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">scope</span>&gt;</span>provided<span class="hljs-tag">&lt;/<span class="hljs-name">scope</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
 <p>1)延迟特性</p>
 <p>2)偏向锁</p>
-<pre><code class="java">public class TestBiased &#123;
-    public static void main(String[] args) &#123;
-        Lock lock = new Lock();
-        new Thread(() -&gt; &#123;
-            System.out.println(&quot;synchronized前&quot;);
-            System.out.println(ClassLayout.parseInstance(lock).toPrintable());
-            synchronized (lock) &#123;
-                System.out.println(&quot;synchronized中&quot;);
-                System.out.println(ClassLayout.parseInstance(lock).toPrintable());
-            &#125;
-            System.out.println(&quot;synchronized后&quot;);
-            System.out.println(ClassLayout.parseInstance(lock).toPrintable());
-        &#125;,&quot;t1&quot;).start();
-    &#125;
-&#125;
-class Lock&#123;
+<figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TestBiased</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;<br>        Lock lock = <span class="hljs-keyword">new</span> Lock();<br>        <span class="hljs-keyword">new</span> Thread(() -&gt; &#123;<br>            System.out.println(<span class="hljs-string">&quot;synchronized前&quot;</span>);<br>            System.out.println(ClassLayout.parseInstance(lock).toPrintable());<br>            <span class="hljs-keyword">synchronized</span> (lock) &#123;<br>                System.out.println(<span class="hljs-string">&quot;synchronized中&quot;</span>);<br>                System.out.println(ClassLayout.parseInstance(lock).toPrintable());<br>            &#125;<br>            System.out.println(<span class="hljs-string">&quot;synchronized后&quot;</span>);<br>            System.out.println(ClassLayout.parseInstance(lock).toPrintable());<br>        &#125;,<span class="hljs-string">&quot;t1&quot;</span>).start();<br>    &#125;<br>&#125;<br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Lock</span></span>&#123;<br><br>&#125;<br></code></pre></td></tr></table></figure>
 
-&#125;
-</code></pre>
 <p><img src="/2021/09/20/Lock-0/image-20210916232830431-1632143620307.png" alt="image-20210916232830431"></p>
 <p>处于偏向锁的对象解锁后，线程 id 仍存储于对象头中</p>
 <p>3)禁用</p>
@@ -260,34 +126,8 @@ class Lock&#123;
 <blockquote>
 <p>撤销-其他线程对该对象加锁</p>
 </blockquote>
-<pre><code class="java">public class TestBiased2 &#123;
-    public static void main(String[] args) &#123;
-        Lock lock = new Lock();
-        new Thread(() -&gt; &#123;
-            synchronized (lock) &#123;
-                System.out.println(ClassLayout.parseInstance(lock).toPrintable());//0101
-            &#125;
-            synchronized (TestBiased2.class) &#123;
-                TestBiased2.class.notify();
-            &#125;
-        &#125;).start();
-        new Thread(() -&gt; &#123;
-            synchronized (TestBiased2.class) &#123;
-                try &#123;
-                    TestBiased2.class.wait();
-                &#125; catch (InterruptedException e) &#123;
-                    e.printStackTrace();
-                &#125;
-                System.out.println(ClassLayout.parseInstance(lock).toPrintable());//0101
-                synchronized (lock) &#123;
-                    System.out.println(ClassLayout.parseInstance(lock).toPrintable());//0000,解除偏向锁
-                &#125;
-                System.out.println(ClassLayout.parseInstance(lock).toPrintable());//0001
-            &#125;
-        &#125;,&quot;t2&quot;).start();
-    &#125;
-&#125;
-</code></pre>
+<figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TestBiased2</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;<br>        Lock lock = <span class="hljs-keyword">new</span> Lock();<br>        <span class="hljs-keyword">new</span> Thread(() -&gt; &#123;<br>            <span class="hljs-keyword">synchronized</span> (lock) &#123;<br>                System.out.println(ClassLayout.parseInstance(lock).toPrintable());<span class="hljs-comment">//0101</span><br>            &#125;<br>            <span class="hljs-keyword">synchronized</span> (TestBiased2.class) &#123;<br>                TestBiased2.class.notify();<br>            &#125;<br>        &#125;).start();<br>        <span class="hljs-keyword">new</span> Thread(() -&gt; &#123;<br>            <span class="hljs-keyword">synchronized</span> (TestBiased2.class) &#123;<br>                <span class="hljs-keyword">try</span> &#123;<br>                    TestBiased2.class.wait();<br>                &#125; <span class="hljs-keyword">catch</span> (InterruptedException e) &#123;<br>                    e.printStackTrace();<br>                &#125;<br>                System.out.println(ClassLayout.parseInstance(lock).toPrintable());<span class="hljs-comment">//0101</span><br>                <span class="hljs-keyword">synchronized</span> (lock) &#123;<br>                    System.out.println(ClassLayout.parseInstance(lock).toPrintable());<span class="hljs-comment">//0000,解除偏向锁</span><br>                &#125;<br>                System.out.println(ClassLayout.parseInstance(lock).toPrintable());<span class="hljs-comment">//0001</span><br>            &#125;<br>        &#125;,<span class="hljs-string">&quot;t2&quot;</span>).start();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
 <p><img src="/2021/09/20/Lock-0/image-20210916234915082-1632143620307.png"></p>
 <p>当有其它线程使用该对象对其加锁时，偏向锁会撤销变为轻量级锁</p>
 <blockquote>
@@ -296,44 +136,8 @@ class Lock&#123;
 <p>因为wait/notify使用时是在重量级锁下的，肯定会撤销偏向锁</p>
 <p>==批量重偏向==</p>
 <p>对象虽然被多个线程访问，但没有竞争，这时偏向了线程 T1 的对象仍有机会重新偏向 T2，重偏向会重置对象 的 Thread ID，当撤销偏向锁阈值超过20次后JVM会认为目前的偏向状态是错误的，于是会在给这些对象加锁时重新偏向至加锁线程</p>
-<pre><code class="java">public class TestBiased3 &#123;
-    public static void main(String[] args) &#123;
-        Vector&lt;Lock&gt; list = new Vector&lt;&gt;();
-        new Thread(() -&gt; &#123;
-            for (int i = 0; i &lt; 30; i++) &#123;//从i=0开始就偏向线程t1了,1000
-                Lock lock = new Lock();
-                System.out.println(i + &quot;\t&quot; + ClassLayout.parseInstance(lock).toPrintable());
-                list.add(lock);
-                synchronized (lock) &#123;
-                    System.out.println(i + &quot;\t&quot; + ClassLayout.parseInstance(lock).toPrintable());
-                &#125;
-            &#125;
-            synchronized (list) &#123;
-                list.notify();
-            &#125;
-        &#125;, &quot;t1&quot;).start();
+<figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TestBiased3</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;<br>        Vector&lt;Lock&gt; list = <span class="hljs-keyword">new</span> Vector&lt;&gt;();<br>        <span class="hljs-keyword">new</span> Thread(() -&gt; &#123;<br>            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">30</span>; i++) &#123;<span class="hljs-comment">//从i=0开始就偏向线程t1了,1000</span><br>                Lock lock = <span class="hljs-keyword">new</span> Lock();<br>                System.out.println(i + <span class="hljs-string">&quot;\t&quot;</span> + ClassLayout.parseInstance(lock).toPrintable());<br>                list.add(lock);<br>                <span class="hljs-keyword">synchronized</span> (lock) &#123;<br>                    System.out.println(i + <span class="hljs-string">&quot;\t&quot;</span> + ClassLayout.parseInstance(lock).toPrintable());<br>                &#125;<br>            &#125;<br>            <span class="hljs-keyword">synchronized</span> (list) &#123;<br>                list.notify();<br>            &#125;<br>        &#125;, <span class="hljs-string">&quot;t1&quot;</span>).start();<br><br>        <span class="hljs-keyword">new</span> Thread(() -&gt; &#123;<br>            <span class="hljs-keyword">synchronized</span> (list) &#123;<br>                <span class="hljs-keyword">try</span> &#123;<br>                    list.wait();<br>                &#125; <span class="hljs-keyword">catch</span> (InterruptedException e) &#123;<br>                    e.printStackTrace();<br>                &#125;<br>            &#125;<br>            System.out.println(<span class="hljs-string">&quot;==========================&quot;</span>);<br>            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">30</span>; i++) &#123;<span class="hljs-comment">//前19个都是将偏向锁依然偏向t1,第20个及以后改为偏向t2</span><br>                Lock lock = list.get(i);<br>                System.out.println(i + <span class="hljs-string">&quot;\t&quot;</span> + ClassLayout.parseInstance(lock).toPrintable());<br>                <span class="hljs-keyword">synchronized</span> (lock) &#123;<br>                    System.out.println(i + <span class="hljs-string">&quot;\t&quot;</span> + ClassLayout.parseInstance(lock).toPrintable());<br>                &#125;<br>                System.out.println(i + <span class="hljs-string">&quot;\t&quot;</span> + ClassLayout.parseInstance(lock).toPrintable());<br>            &#125;<br>        &#125;, <span class="hljs-string">&quot;t2&quot;</span>).start();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
-        new Thread(() -&gt; &#123;
-            synchronized (list) &#123;
-                try &#123;
-                    list.wait();
-                &#125; catch (InterruptedException e) &#123;
-                    e.printStackTrace();
-                &#125;
-            &#125;
-            System.out.println(&quot;==========================&quot;);
-            for (int i = 0; i &lt; 30; i++) &#123;//前19个都是将偏向锁依然偏向t1,第20个及以后改为偏向t2
-                Lock lock = list.get(i);
-                System.out.println(i + &quot;\t&quot; + ClassLayout.parseInstance(lock).toPrintable());
-                synchronized (lock) &#123;
-                    System.out.println(i + &quot;\t&quot; + ClassLayout.parseInstance(lock).toPrintable());
-                &#125;
-                System.out.println(i + &quot;\t&quot; + ClassLayout.parseInstance(lock).toPrintable());
-            &#125;
-        &#125;, &quot;t2&quot;).start();
-    &#125;
-&#125;
-</code></pre>
 <p>线程t1加锁时处于偏向状态，偏向t1线程</p>
 <p><img src="/2021/09/20/Lock-0/image-20210917000118919-1632143620307.png" alt="image-20210917000118919"></p>
 <p>当线程t2刚开始对该对象加锁时，对象的偏向状态依然是偏向线程t1的，此时t2线程对对象加锁为轻量级锁</p>
@@ -342,63 +146,13 @@ class Lock&#123;
 <p><img src="/2021/09/20/Lock-0/image-20210917000646372-1632143620308.png" alt="image-20210917000646372"></p>
 <p>==批量撤销==</p>
 <p>当撤销偏向锁阈值超过 40 次后，jvm 会这样认为确实偏向错了，此时该对象的使用竞争太激烈，根本就不该偏向。于是整个类的所有对象 都会变为不可偏向的，新建的对象也是不可偏向的</p>
-<pre><code class="java">public class TestBiased4 &#123;
-    static Thread t1, t2, t3;
+<figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TestBiased4</span> </span>&#123;<br>    <span class="hljs-keyword">static</span> Thread t1, t2, t3;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> InterruptedException </span>&#123;<br>        test4();<br>    &#125;<br>    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">test4</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> InterruptedException </span>&#123;<br>        Vector&lt;Lock&gt; list = <span class="hljs-keyword">new</span> Vector&lt;&gt;();<br>        <span class="hljs-keyword">int</span> loopNumber = <span class="hljs-number">39</span>;<br>        t1 = <span class="hljs-keyword">new</span> Thread(() -&gt; &#123;<br>            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; loopNumber; i++) &#123;<br>                Lock lock = <span class="hljs-keyword">new</span> Lock();<br>                list.add(lock);<br>                <span class="hljs-keyword">synchronized</span> (lock) &#123;<br>                    System.out.println((i + <span class="hljs-string">&quot;\t&quot;</span> + ClassLayout.parseInstance(lock).toPrintable()));<br>                &#125;<br>            &#125;<br>            LockSupport.unpark(t2);<br>        &#125;, <span class="hljs-string">&quot;t1&quot;</span>);<br>        t1.start();<br>        t2 = <span class="hljs-keyword">new</span> Thread(() -&gt; &#123;<br>            LockSupport.park();<br>            System.out.println((<span class="hljs-string">&quot;================ &quot;</span>));<br>            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; loopNumber; i++) &#123;<br>                Lock lock = list.get(i);<br>                System.out.println((i + <span class="hljs-string">&quot;\t&quot;</span> + ClassLayout.parseInstance(lock).toPrintable()));<br>                <span class="hljs-keyword">synchronized</span> (lock) &#123;<br>                    System.out.println((i + <span class="hljs-string">&quot;\t&quot;</span> + ClassLayout.parseInstance(lock).toPrintable()));<br>                &#125;<br>                System.out.println((i + <span class="hljs-string">&quot;\t&quot;</span> + ClassLayout.parseInstance(lock).toPrintable()));<br>            &#125;<br>            LockSupport.unpark(t3);<br>        &#125;, <span class="hljs-string">&quot;t2&quot;</span>);<br>        t2.start();<br>        t3 = <span class="hljs-keyword">new</span> Thread(()-&gt; &#123;<br>            LockSupport.park();<br>            System.out.println(<span class="hljs-string">&quot;=================&quot;</span>);<br>            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; loopNumber; i++) &#123;<br>                Lock lock = list.get(i);<br>                System.out.println((i + <span class="hljs-string">&quot;\t&quot;</span> + ClassLayout.parseInstance(lock).toPrintable()));<br>                <span class="hljs-keyword">synchronized</span> (lock) &#123;<br>                    System.out.println((i + <span class="hljs-string">&quot;\t&quot;</span> + ClassLayout.parseInstance(lock).toPrintable()));<br>                &#125;<br>                System.out.println((i + <span class="hljs-string">&quot;\t&quot;</span> + ClassLayout.parseInstance(lock).toPrintable()));<br>            &#125;<br>        &#125;, <span class="hljs-string">&quot;t3&quot;</span>);<br>        t3.start();<br>        t3.join();<br>        System.out.println((ClassLayout.parseInstance(<span class="hljs-keyword">new</span> Lock()).toPrintable()));<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
-    public static void main(String[] args) throws InterruptedException &#123;
-        test4();
-    &#125;
-    private static void test4() throws InterruptedException &#123;
-        Vector&lt;Lock&gt; list = new Vector&lt;&gt;();
-        int loopNumber = 39;
-        t1 = new Thread(() -&gt; &#123;
-            for (int i = 0; i &lt; loopNumber; i++) &#123;
-                Lock lock = new Lock();
-                list.add(lock);
-                synchronized (lock) &#123;
-                    System.out.println((i + &quot;\t&quot; + ClassLayout.parseInstance(lock).toPrintable()));
-                &#125;
-            &#125;
-            LockSupport.unpark(t2);
-        &#125;, &quot;t1&quot;);
-        t1.start();
-        t2 = new Thread(() -&gt; &#123;
-            LockSupport.park();
-            System.out.println((&quot;================ &quot;));
-            for (int i = 0; i &lt; loopNumber; i++) &#123;
-                Lock lock = list.get(i);
-                System.out.println((i + &quot;\t&quot; + ClassLayout.parseInstance(lock).toPrintable()));
-                synchronized (lock) &#123;
-                    System.out.println((i + &quot;\t&quot; + ClassLayout.parseInstance(lock).toPrintable()));
-                &#125;
-                System.out.println((i + &quot;\t&quot; + ClassLayout.parseInstance(lock).toPrintable()));
-            &#125;
-            LockSupport.unpark(t3);
-        &#125;, &quot;t2&quot;);
-        t2.start();
-        t3 = new Thread(()-&gt; &#123;
-            LockSupport.park();
-            System.out.println(&quot;=================&quot;);
-            for (int i = 0; i &lt; loopNumber; i++) &#123;
-                Lock lock = list.get(i);
-                System.out.println((i + &quot;\t&quot; + ClassLayout.parseInstance(lock).toPrintable()));
-                synchronized (lock) &#123;
-                    System.out.println((i + &quot;\t&quot; + ClassLayout.parseInstance(lock).toPrintable()));
-                &#125;
-                System.out.println((i + &quot;\t&quot; + ClassLayout.parseInstance(lock).toPrintable()));
-            &#125;
-        &#125;, &quot;t3&quot;);
-        t3.start();
-        t3.join();
-        System.out.println((ClassLayout.parseInstance(new Lock()).toPrintable()));
-    &#125;
-&#125;
-</code></pre>
 <p><img src="/2021/09/20/Lock-0/image-20210917001758215-1632143620308.png" alt="image-20210917001758215"></p>
 <p>update</p>
 <div id="paginator"></div></div><div id="post-footer"><hr><a href="/2021/09/20/JUC/">← Prev JUC</a><hr></div><div id="bottom-btn"><a id="to-index" href="#post-index" title="index">≡</a><a id="to-top" href="#post-title" title="to top">∧</a></div><div id="Valine"></div><script>new Valine({
  el: '#Valine'
  , appId: 'TWFe26C7GQDWyvw3lVpQUswj-gzGzoHsz'
  , appKey: 'kA8WG8bPJQ16UwOnhf7TGdHn'
- , placeholder: '欢迎大家的评论，感谢批评指正'
-})</script></div></article><aside><div id="about"><a href="/" id="logo"><img src="https://ak.hypergryph.com/assets/index/images/ak/pc/faction/1.png" alt="Logo"></a><h1 id="dr"><a href="/"> Mr.MaoZH</a></h1><section id="total"><a id="total-archives" href="/archives"><span class="total-title">Archives Total:</span><span class="total-number">3</span></a><div id="total-tags"><span class="total-title">Tags:</span><span class="total-number">3</span></div><div id="total-categories"><span class="total-title">Categories:</span><span class="total-number">1</span></div></section></div><div id="aside-block"><h1>INDEX</h1><div id="post-index"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%94%81%E6%9C%BA%E5%88%B6"><span class="toc-number">1.</span> <span class="toc-text">锁机制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Synchronized-%E8%BF%9B%E9%98%B6"><span class="toc-number">2.</span> <span class="toc-text">Synchronized 进阶</span></a></li></ol></div></div><footer><nobr><span class="text-title">©</span><span class="text-content">2020 to 2021</span></nobr><wbr><nobr><span class="text-title">ICP</span><span class="text-content">——备案号——</span></nobr><wbr><wbr><nobr>published with&nbsp;<a href="https://jack-edward.github.io">Zhihui Mao&nbsp;</a></nobr><wbr><nobr>Theme&nbsp;<a href="">Arknight&nbsp;</a></nobr><wbr><nobr>by&nbsp;<a href="">Yue_plus </a></nobr></footer></aside></main><canvas id="canvas-dust"></canvas><script src="/js/arknights.js"></script><script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/10.1.2/highlight.min.js"></script></body></html>
+ , placeholder: '欢迎大家评论，感谢批评指正'
+})</script></div></article><aside><div id="about"><a href="/" id="logo"><img src="https://ak.hypergryph.com/assets/index/images/ak/pc/faction/1.png" alt="Logo"></a><h1 id="dr"><a href="/"> Mr.MaoZH</a></h1><section id="total"><a id="total-archives" href="/archives"><span class="total-title">Archives Total:</span><span class="total-number">3</span></a><div id="total-tags"><span class="total-title">Tags:</span><span class="total-number">3</span></div><div id="total-categories"><span class="total-title">Categories:</span><span class="total-number">1</span></div></section></div><div id="aside-block"><div id="aside"><h1>INDEX</h1><div id="post-index"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%94%81%E6%9C%BA%E5%88%B6"><span class="toc-number">1.</span> <span class="toc-text">锁机制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Synchronized-%E8%BF%9B%E9%98%B6"><span class="toc-number">2.</span> <span class="toc-text">Synchronized 进阶</span></a></li></ol></div><div id="post-index"></div></div></div><footer><nobr><span class="text-title">©</span><span class="text-content">2020 to 2021</span></nobr><wbr><nobr><span class="text-title">ICP</span><span class="text-content">——备案号——</span></nobr><wbr><wbr><nobr>published with&nbsp;<a href="https://jack-edward.github.io">Zhihui Mao&nbsp;</a></nobr><wbr><nobr>Theme&nbsp;<a href="">Arknight&nbsp;</a></nobr><wbr><nobr>by&nbsp;<a href="">Yue_plus </a></nobr></footer></aside></main><canvas id="canvas-dust"></canvas><script src="/js/arknights.js"></script><script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/10.1.2/highlight.min.js"></script></body></html>

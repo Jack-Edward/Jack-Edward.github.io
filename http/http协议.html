@@ -26,58 +26,24 @@
 <h3 id="Http请求"><a href="#Http请求" class="headerlink" title="Http请求"></a>Http请求</h3><ul>
 <li>客户端–发请求(request)–服务器</li>
 </ul>
-<pre><code>Request URL: https://www.baidu.com/
-Request Method: GET   //请求方法post/get
-Status Code: 200 OK //状态码
-Remote Address: 180.97.34.94:443 //远程地址
-Referrer Policy: strict-origin-when-cross-origin //协议
-</code></pre>
-<pre><code>Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
-Accept-Encoding: gzip, deflate, br
-Accept-Language: zh-CN,zh;q=0.9
-Cache-Control: max-age=0
-Connection: keep-alive
-</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">Request URL: https://www.baidu.com/<br>Request Method: GET   //请求方法post/get<br>Status Code: 200 OK //状态码<br>Remote Address: 180.97.34.94:443 //远程地址<br>Referrer Policy: strict-origin-when-cross-origin //协议<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9<br>Accept-Encoding: gzip, deflate, br<br>Accept-Language: zh-CN,zh;q=0.9<br>Cache-Control: max-age=0<br>Connection: keep-alive<br></code></pre></td></tr></table></figure>
+
 <p>1、请求行<br>请求行中的请求方式：GET<br>请求方式：Get,Post,HEAD,DELETE,PUT,TRACT<br>get:请求能够携带的参数比较少，大小有限制，会在浏览器的URL地址栏显示数据内容，不安全，但是效率高<br>Post:请求能够携带的参数没有限制，大小没有限制，不会在浏览器的URL地址栏显示数据内容，安全，但是效率不高</p>
 <p>2、消息头</p>
-<pre><code>Accept:告诉浏览器所支持的数据类型
-Accept-Encoding: 支持哪种编码格式GBK、UTF-8、GB2312、ISO8859-1
-Accept-Language: 告诉浏览器语言环境
-Cache-Control: 缓存控制
-Connection: 告诉浏览器请求完成是断开还是保持连接
-Host:主机
-</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">Accept:告诉浏览器所支持的数据类型<br>Accept-Encoding: 支持哪种编码格式GBK、UTF-8、GB2312、ISO8859-1<br>Accept-Language: 告诉浏览器语言环境<br>Cache-Control: 缓存控制<br>Connection: 告诉浏览器请求完成是断开还是保持连接<br>Host:主机<br></code></pre></td></tr></table></figure>
+
+
+
 <h3 id="Http响应"><a href="#Http响应" class="headerlink" title="Http响应"></a>Http响应</h3><ul>
 <li>服务器–响应–客户端</li>
 </ul>
-<pre><code>Bdpagetype: 2
-Bdqid: 0xfcc73a900001d848
-Cache-Control: private  //缓存控制
-Connection: keep-alive //连接状态
-Content-Encoding: gzip //编码
-Content-Type: text/html;charset=utf-8 //内容类型
-Date: Mon, 26 Jul 2021 15:36:44 GMT
-Expires: Mon, 26 Jul 2021 15:36:44 GMT
-Server: BWS/1.1 //服务器信息
-Set-Cookie: BDSVRTM=330; path=/
-Set-Cookie: BD_HOME=1; path=/
-Set-Cookie: H_PS_PSSID=34300_34099_34330_34004_34073_34093_26350_34238; path=/; domain=.baidu.com
-Strict-Transport-Security: max-age=172800
-Traceid: 1627313804064118375418214591608073082952
-Transfer-Encoding: chunked
-X-Frame-Options: sameorigin
-X-Ua-Compatible: IE=Edge,chrome=1
-</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">Bdpagetype: 2<br>Bdqid: 0xfcc73a900001d848<br>Cache-Control: private  //缓存控制<br>Connection: keep-alive //连接状态<br>Content-Encoding: gzip //编码<br>Content-Type: text/html;charset=utf-8 //内容类型<br>Date: Mon, 26 Jul 2021 15:36:44 GMT<br>Expires: Mon, 26 Jul 2021 15:36:44 GMT<br>Server: BWS/1.1 //服务器信息<br>Set-Cookie: BDSVRTM=330; path=/<br>Set-Cookie: BD_HOME=1; path=/<br>Set-Cookie: H_PS_PSSID=34300_34099_34330_34004_34073_34093_26350_34238; path=/; domain=.baidu.com<br>Strict-Transport-Security: max-age=172800<br>Traceid: 1627313804064118375418214591608073082952<br>Transfer-Encoding: chunked<br>X-Frame-Options: sameorigin<br>X-Ua-Compatible: IE=Edge,chrome=1<br></code></pre></td></tr></table></figure>
+
 <p><strong>响应体</strong></p>
-<pre><code>Accept:告诉浏览器所支持的数据类型
-Accept-Encoding: 支持哪种编码格式GBK、UTF-8、GB2312、ISO8859-1
-Accept-Language: 告诉浏览器语言环境
-Cache-Control: 缓存控制
-Connection: 告诉浏览器请求完成是断开还是保持连接
-Host:主机
-Reflush:告诉客户端多久刷新一次
-Location:网页重新定位
-</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">Accept:告诉浏览器所支持的数据类型<br>Accept-Encoding: 支持哪种编码格式GBK、UTF-8、GB2312、ISO8859-1<br>Accept-Language: 告诉浏览器语言环境<br>Cache-Control: 缓存控制<br>Connection: 告诉浏览器请求完成是断开还是保持连接<br>Host:主机<br>Reflush:告诉客户端多久刷新一次<br>Location:网页重新定位<br></code></pre></td></tr></table></figure>
+
 <p><strong>响应状态码</strong></p>
 <p>1XX：接受的请求正在处理</p>
 <p>2XX：请求响应成功</p>
@@ -91,5 +57,5 @@ Location:网页重新定位
  el: '#Valine'
  , appId: 'TWFe26C7GQDWyvw3lVpQUswj-gzGzoHsz'
  , appKey: 'kA8WG8bPJQ16UwOnhf7TGdHn'
- , placeholder: '欢迎大家的评论，感谢批评指正'
-})</script></div></article><aside><div id="about"><a href="/" id="logo"><img src="https://ak.hypergryph.com/assets/index/images/ak/pc/faction/1.png" alt="Logo"></a><h1 id="dr"><a href="/"> Mr.MaoZH</a></h1><section id="total"><a id="total-archives" href="/archives"><span class="total-title">Archives Total:</span><span class="total-number">3</span></a><div id="total-tags"><span class="total-title">Tags:</span><span class="total-number">3</span></div><div id="total-categories"><span class="total-title">Categories:</span><span class="total-number">1</span></div></section></div><div id="aside-block"><h1>INDEX</h1><div id="post-index"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Http"><span class="toc-number">1.</span> <span class="toc-text">Http</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Http%E8%AF%B7%E6%B1%82"><span class="toc-number">1.1.</span> <span class="toc-text">Http请求</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Http%E5%93%8D%E5%BA%94"><span class="toc-number">1.2.</span> <span class="toc-text">Http响应</span></a></li></ol></li></ol></div></div><footer><nobr><span class="text-title">©</span><span class="text-content">2020 to 2021</span></nobr><wbr><nobr><span class="text-title">ICP</span><span class="text-content">——备案号——</span></nobr><wbr><wbr><nobr>published with&nbsp;<a href="https://jack-edward.github.io">Zhihui Mao&nbsp;</a></nobr><wbr><nobr>Theme&nbsp;<a href="">Arknight&nbsp;</a></nobr><wbr><nobr>by&nbsp;<a href="">Yue_plus </a></nobr></footer></aside></main><canvas id="canvas-dust"></canvas><script src="/js/arknights.js"></script><script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/10.1.2/highlight.min.js"></script></body></html>
+ , placeholder: '欢迎大家评论，感谢批评指正'
+})</script></div></article><aside><div id="about"><a href="/" id="logo"><img src="https://ak.hypergryph.com/assets/index/images/ak/pc/faction/1.png" alt="Logo"></a><h1 id="dr"><a href="/"> Mr.MaoZH</a></h1><section id="total"><a id="total-archives" href="/archives"><span class="total-title">Archives Total:</span><span class="total-number">3</span></a><div id="total-tags"><span class="total-title">Tags:</span><span class="total-number">3</span></div><div id="total-categories"><span class="total-title">Categories:</span><span class="total-number">1</span></div></section></div><div id="aside-block"><div id="aside"></div></div><footer><nobr><span class="text-title">©</span><span class="text-content">2020 to 2021</span></nobr><wbr><nobr><span class="text-title">ICP</span><span class="text-content">——备案号——</span></nobr><wbr><wbr><nobr>published with&nbsp;<a href="https://jack-edward.github.io">Zhihui Mao&nbsp;</a></nobr><wbr><nobr>Theme&nbsp;<a href="">Arknight&nbsp;</a></nobr><wbr><nobr>by&nbsp;<a href="">Yue_plus </a></nobr></footer></aside></main><canvas id="canvas-dust"></canvas><script src="/js/arknights.js"></script><script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/10.1.2/highlight.min.js"></script></body></html>
