@@ -1,0 +1,4 @@
+script(src='https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js')
+link(rel='stylesheet', href='https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css')
+apiPath: "https://live2d.fghrsh.net/api/"  "https://api.zsq.im/live2d/"   "https://api3.fghrsh.net/live2d/"
+cdnPath: "https://cdn.jsdelivr.net/gh/fghrsh/live2d_api/"
