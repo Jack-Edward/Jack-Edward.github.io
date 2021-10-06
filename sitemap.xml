@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://jack-edward.github.io/2021/10/06/Hive%E6%95%B0%E6%8D%AE%E4%BB%93%E5%BA%93/</loc>
+    
+    <lastmod>2021-10-06</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://jack-edward.github.io/2021/10/06/SpringBoot%E7%AC%94%E8%AE%B0%E6%95%B4%E7%90%86/</loc>
+    
+    <lastmod>2021-10-06</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://jack-edward.github.io/2021/09/20/Lock-0/</loc>
     
     <lastmod>2021-10-05</lastmod>
@@ -67,7 +81,7 @@
 
   <url>
     <loc>https://jack-edward.github.io/</loc>
-    <lastmod>2021-10-05</lastmod>
+    <lastmod>2021-10-06</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -75,21 +89,35 @@
   
   <url>
     <loc>https://jack-edward.github.io/tags/%E9%94%81%E7%9A%84%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/</loc>
-    <lastmod>2021-10-05</lastmod>
+    <lastmod>2021-10-06</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://jack-edward.github.io/tags/Spring%E7%9A%84IOC%E4%B8%8EAOP%E7%90%86%E8%A7%A3/</loc>
-    <lastmod>2021-10-05</lastmod>
+    <lastmod>2021-10-06</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://jack-edward.github.io/tags/JUC%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/</loc>
-    <lastmod>2021-10-05</lastmod>
+    <lastmod>2021-10-06</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://jack-edward.github.io/tags/SpringBoot%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</loc>
+    <lastmod>2021-10-06</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://jack-edward.github.io/tags/Hive/</loc>
+    <lastmod>2021-10-06</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
@@ -98,7 +126,14 @@
   
   <url>
     <loc>https://jack-edward.github.io/categories/Java/</loc>
-    <lastmod>2021-10-05</lastmod>
+    <lastmod>2021-10-06</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://jack-edward.github.io/categories/Hadoop/</loc>
+    <lastmod>2021-10-06</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
