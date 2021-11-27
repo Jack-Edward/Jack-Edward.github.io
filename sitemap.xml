@@ -2,13 +2,6 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://jack-edward.github.io/2021/10/24/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98/</loc>
-    
-    <lastmod>2021-11-27</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://jack-edward.github.io/2021/11/21/spring%E9%9B%86%E6%88%90mybatis/</loc>
     
     <lastmod>2021-11-27</lastmod>
@@ -16,9 +9,9 @@
   </url>
   
   <url>
-    <loc>https://jack-edward.github.io/2021/11/21/mybatis11/</loc>
+    <loc>https://jack-edward.github.io/2021/11/27/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98/</loc>
     
-    <lastmod>2021-11-21</lastmod>
+    <lastmod>2021-11-27</lastmod>
     
   </url>
   
@@ -202,14 +195,7 @@
   </url>
   
   <url>
-    <loc>https://jack-edward.github.io/categories/java/</loc>
-    <lastmod>2021-11-27</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://jack-edward.github.io/categories/java/spring/</loc>
+    <loc>https://jack-edward.github.io/categories/Java/Spring/</loc>
     <lastmod>2021-11-27</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
